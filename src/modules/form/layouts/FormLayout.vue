@@ -1,16 +1,18 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   export default defineComponent({
-    name: 'MainLayout',
+    name: 'FormLayout',
   })
 </script>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import FormPage from '../pages/FormPage.vue'
+</script>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-page-container>
-      <router-view />
+      <form-page />
     </q-page-container>
   </q-layout>
 </template>
