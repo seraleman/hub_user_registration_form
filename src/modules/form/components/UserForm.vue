@@ -34,6 +34,7 @@
     role: '',
   })
 
+<<<<<<< HEAD
   const isFieldNotNull = (val: string, message: string | undefined) => {
     if (message !== undefined) return (val !== null && val !== '') || message
     else return val !== null && val !== ''
@@ -55,6 +56,9 @@
       value: 'cédula de extranjería',
     },
   ]
+=======
+  const color = 'secondary'
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
 </script>
 
 <template>
@@ -66,6 +70,7 @@
             <div class="row">
               <!-- @reset="onReset()" @submit="onSubmit(reasonForm, useReason.reasons)" -->
               <q-input
+<<<<<<< HEAD
                 filled
                 dense
                 lazy-rules
@@ -87,10 +92,20 @@
                 v-model="userForm.documentType"
                 :options="options"
                 :rules="[(val) => isFieldNotNull(val, undefined)]"
+=======
+                dense
+                lazy-rules
+                :color="color"
+                label="Nombre completo"
+                type="text"
+                v-model="userForm.fullName"
+                :rules="[(val) => isFieldNotNull(val, 'Debes ingresar')]"
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
               />
 
               <q-input
                 dense
+<<<<<<< HEAD
                 filled
                 lazy-rules
                 class="inputDocument q-mx-sm"
@@ -99,13 +114,35 @@
                 v-model="userForm.document"
                 :color="color"
                 :rules="[(val) => isFieldNotNull(val, undefined)]"
+=======
+                lazy-rules
+                :color="color"
+                label="Tipo de documento"
+                type="text"
+                v-model="userForm.documentType"
+                :rules="[(val) => isFieldNotNull(val, 'Debes ingresar')]"
               />
 
               <q-input
                 dense
+                lazy-rules
+                :color="color"
+                label="Número de documento"
+                type="text"
+                v-model="userForm.document"
+                :rules="[(val) => isFieldNotNull(val, 'Debes ingresar')]"
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
+              />
+
+              <q-input
+                dense
+<<<<<<< HEAD
                 filled
                 lazy-rules7
                 class="inputEmail q-mx-sm"
+=======
+                lazy-rules
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
                 color="secondary"
                 label="Correo electrónico"
                 type="text"
@@ -115,9 +152,13 @@
 
               <q-input
                 dense
+<<<<<<< HEAD
                 filled
                 lazy-rules
                 class="inputPhone q-mx-sm"
+=======
+                lazy-rules
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
                 color="secondary"
                 label="Número celular"
                 type="text"
@@ -147,12 +188,33 @@
             </div>
 
             <q-card-actions class="">
+<<<<<<< HEAD
+=======
+              <q-btn flat class="q-ma-sm" color="secondary" label="Cancelar" />
+              <!-- @click="onCancel(undefined)" -->
+
+              <q-btn
+                flat
+                class="q-ma-sm"
+                color="secondary"
+                label="Borrar campos"
+                type="reset"
+              />
+              <!-- v-if="!reasonForm.id" -->
+
+              <q-space />
+
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
               <q-btn
                 class="q-ma-sm"
                 color="secondary"
                 type="submit"
                 label="Registrarse"
               />
+<<<<<<< HEAD
+=======
+              <!-- :label="!reasonForm.id ? 'Crear' : 'Editar'" -->
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -168,6 +230,7 @@
     width: 100%;
     height: 100%;
   }
+<<<<<<< HEAD
 
   .inputName {
     min-width: 20em;
@@ -188,4 +251,6 @@
   .inputPhone {
     min-width: 13em;
   }
+=======
+>>>>>>> aeb27884d80ecd8c28daebedf5b368f1e86330fc
 </style>
