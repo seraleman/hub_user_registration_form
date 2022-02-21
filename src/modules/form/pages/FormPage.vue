@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <q-page padding>
+  <q-page>
     <user-form />
   </q-page>
 </template>

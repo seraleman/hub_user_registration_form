@@ -21,6 +21,11 @@ myApp.use(createPinia()).use(router)
 myApp.use(Quasar, {
   plugins: { Loading, Notify },
   iconSet: quasarIconSet,
+  config: {
+    screen: {
+      bodyClasses: true,
+    },
+  },
 })
 
 myApp.mount('#app')
