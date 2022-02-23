@@ -15,7 +15,9 @@
     dateOfBirth: string
     documentType: string
     document: string
+    documentConfirmation: string
     email: string
+    emailConfirmation: string
     entity: string
     fullName: string
     password: string
@@ -28,7 +30,9 @@
     dateOfBirth: '',
     documentType: '',
     document: '',
+    documentConfirmation: '',
     email: '',
+    emailConfirmation: '',
     entity: '',
     fullName: '',
     password: '',
@@ -40,6 +44,31 @@
   const isFieldNotNull = (val: string, message: string | undefined) => {
     if (message !== undefined) return (val !== null && val !== '') || message
     else return val !== null && val !== ''
+  }
+
+  const isValidEmail = (val: string) => {
+    const emailPattern =
+      /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/
+    return emailPattern.test(val) || 'El correo no parece ser válido'
+  }
+
+  const isSameInput = (val: string, field: string) => {
+    switch (field) {
+      case 'document':
+        return (
+          val === userForm.value.document ||
+          'Los números de documento no son iguales'
+        )
+
+      case 'email':
+        return (
+          val === userForm.value.email ||
+          'Los correos electrónicos no son iguales'
+        )
+
+      default:
+        return true
+    }
   }
 
   const color = 'secondary'
@@ -58,14 +87,6 @@
       value: 'cédula de extranjería',
     },
   ]
-
-  const ejemplo = {
-    xs: 599,
-    sm: 1023,
-    md: 1439,
-    lg: 1919,
-    xl: '...',
-  }
 
   $q.screen.setSizes({
     sm: 426,
@@ -107,13 +128,18 @@
               outlined
               rounded
               class="inputName"
+              placeholder="Nombre completo *"
               type="text"
               v-model="userForm.fullName"
               :color="color"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes ingresar tu nombre completo'),
+              ]"
             >
-              <!-- placeholder="Nombre completo *" -->
-              <q-icon left name="event" />
+              <template v-slot:prepend>
+                <q-icon name="las la-user" class="q-ma-none" />
+              </template>
             </q-input>
 
             <q-select
@@ -126,8 +152,15 @@
               v-model="userForm.documentType"
               :color="color"
               :options="options"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes ingresar tú tipo de documento'),
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-id-card-alt" />
+              </template>
+            </q-select>
 
             <q-input
               dense
@@ -139,21 +172,37 @@
               type="text"
               v-model="userForm.document"
               :color="color"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes ingresar tu número de documento'),
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-id-card" />
+              </template>
+            </q-input>
 
             <q-input
               dense
               lazy-rules
               outlined
               rounded
-              class="inputName"
-              placeholder="Por favor, confirme su número de documento *"
+              class="inputDocument"
+              onpaste="return false"
+              placeholder="Confirme su número de documento *"
               type="text"
-              v-model="userForm.document"
+              v-model="userForm.documentConfirmation"
               :color="color"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes confirmar tu número de documento'),
+                (val) => isSameInput(val, 'document'),
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-id-card" />
+              </template>
+            </q-input>
 
             <q-input
               dense
@@ -165,8 +214,16 @@
               placeholder="Correo electrónico *"
               type="text"
               v-model="userForm.email"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes ingresar tu correo electrónico'),
+                (val) => isValidEmail(val),
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-envelope" />
+              </template>
+            </q-input>
 
             <q-input
               dense
@@ -175,11 +232,21 @@
               rounded
               class="inputEmail"
               color="secondary"
-              placeholder="Por favor, confirme su correo electrónico*"
+              onpaste="return false"
+              placeholder="Confirme su correo electrónico*"
               type="text"
-              v-model="userForm.email"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+              v-model="userForm.emailConfirmation"
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes confirmar tu correo electrónico'),
+                (val) => isValidEmail(val),
+                (val) => isSameInput(val, 'email'),
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-envelope" />
+              </template>
+            </q-input>
 
             <q-input
               dense
@@ -191,8 +258,15 @@
               placeholder="Número celular *"
               type="text"
               v-model="userForm.phoneNumber"
-              :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+              :rules="[
+                (val) =>
+                  isFieldNotNull(val, 'Debes ingresar tu número celular'),
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-mobile" />
+              </template>
+            </q-input>
 
             <q-input
               dense
@@ -201,11 +275,15 @@
               rounded
               class="inputEntity"
               color="secondary"
-              placeholder="Entidad *"
+              placeholder="Entidad desde la que viene*"
               type="text"
               v-model="userForm.entity"
               :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-building" />
+              </template>
+            </q-input>
 
             <q-input
               dense
@@ -214,11 +292,15 @@
               rounded
               class="inputPosition"
               color="secondary"
-              placeholder="Cargo en la entidade *"
+              placeholder="Cargo en la entidad *"
               type="text"
               v-model="userForm.position"
               :rules="[(val) => isFieldNotNull(val, undefined)]"
-            />
+            >
+              <template v-slot:prepend>
+                <q-icon name="las la-user-tie" />
+              </template>
+            </q-input>
 
             <q-btn
               unelevated
