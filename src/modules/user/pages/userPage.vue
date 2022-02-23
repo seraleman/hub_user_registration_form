@@ -1,14 +1,18 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   export default defineComponent({
-    name: 'HomePage',
+    name: 'FormPage',
   })
 </script>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import UserForm from '../components/UserForm.vue'
+</script>
 
 <template>
-  <div>Esta es la home page</div>
+  <q-page>
+    <user-form />
+  </q-page>
 </template>
 
 <style lang="scss" scoped></style>

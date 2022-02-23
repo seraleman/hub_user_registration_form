@@ -1,14 +1,14 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import formRouter from '../modules/user/router'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('../modules/ui/layouts/MainLayout.vue'),
+    component: () => import('../modules/ui/layouts/UiLayout.vue'),
     children: [
       {
         path: '',
-        name: 'home',
-        component: () => import('../modules/ui/pages/HomePage.vue'),
+        ...formRouter,
       },
     ],
   },

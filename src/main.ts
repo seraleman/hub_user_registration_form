@@ -6,7 +6,7 @@ import quasarIconSet from 'quasar/icon-set/svg-line-awesome'
 
 // Import icon libraries
 import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css'
-import '@quasar/extras/material-icons/material-icons.css'
+// import '@quasar/extras/material-icons/material-icons.css'
 import '@quasar/extras/line-awesome/line-awesome.css'
 
 // Import Quasar css
@@ -21,6 +21,11 @@ myApp.use(createPinia()).use(router)
 myApp.use(Quasar, {
   plugins: { Loading, Notify },
   iconSet: quasarIconSet,
+  config: {
+    screen: {
+      bodyClasses: true,
+    },
+  },
 })
 
 myApp.mount('#app')
