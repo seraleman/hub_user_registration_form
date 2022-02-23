@@ -1,10 +1,10 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import formRouter from '../modules/form/router'
+import formRouter from '../modules/user/router'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('../modules/form/layouts/FormLayout.vue'),
+    component: () => import('../modules/ui/layouts/UiLayout.vue'),
     children: [
       {
         path: '',
@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('../modules/form/pages/Error404.vue'),
+    component: () => import('../modules/ui/pages/Error404.vue'),
   },
 ]
 

@@ -8,23 +8,9 @@
 <script lang="ts" setup>
   import { ref, computed } from 'vue'
   import { useQuasar } from 'quasar'
+  import { UserForm } from '../interfaces'
 
   const $q = useQuasar()
-
-  interface UserForm {
-    dateOfBirth: string
-    documentType: string
-    document: string
-    documentConfirmation: string
-    email: string
-    emailConfirmation: string
-    entity: string
-    fullName: string
-    password: string
-    phoneNumber: string
-    position: string
-    role: string
-  }
 
   const userForm = ref<UserForm>({
     dateOfBirth: '',
@@ -35,10 +21,8 @@
     emailConfirmation: '',
     entity: '',
     fullName: '',
-    password: '',
     phoneNumber: '',
     position: '',
-    role: '',
   })
 
   const options = [
@@ -55,6 +39,10 @@
       value: 'cédula de extranjería',
     },
   ]
+
+  const onSubmit = (userForm: UserForm) => {
+    const user = {}
+  }
 
   // form validations
 
