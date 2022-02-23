@@ -41,38 +41,6 @@
     role: '',
   })
 
-  const isFieldNotNull = (val: string, message: string | undefined) => {
-    if (message !== undefined) return (val !== null && val !== '') || message
-    else return val !== null && val !== ''
-  }
-
-  const isValidEmail = (val: string) => {
-    const emailPattern =
-      /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/
-    return emailPattern.test(val) || 'El correo no parece ser válido'
-  }
-
-  const isSameInput = (val: string, field: string) => {
-    switch (field) {
-      case 'document':
-        return (
-          val === userForm.value.document ||
-          'Los números de documento no son iguales'
-        )
-
-      case 'email':
-        return (
-          val === userForm.value.email ||
-          'Los correos electrónicos no son iguales'
-        )
-
-      default:
-        return true
-    }
-  }
-
-  const color = 'secondary'
-
   const options = [
     {
       label: 'Cédula de ciudadanía',
@@ -87,6 +55,49 @@
       value: 'cédula de extranjería',
     },
   ]
+
+  // form validations
+
+  const clearSpecialCharacters = (input: string) => {
+    return input.replace(/[\.,+,\-,\s]/g, '')
+  }
+
+  const isCellNumber = (val: string, message: string) => {
+    const phoneNumberPattern = /^[0-9]{10}$/
+
+    return phoneNumberPattern.test(val) || message
+  }
+
+  const isFieldNotNull = (val: string, message: string | undefined) => {
+    if (message !== undefined) return (val !== null && val !== '') || message
+    else return val !== null && val !== ''
+  }
+
+  const isSameInput = (val: string, message: string, field: string) => {
+    switch (field) {
+      case 'document':
+        return (
+          clearSpecialCharacters(val) ===
+            clearSpecialCharacters(userForm.value.document) || message
+        )
+
+      case 'email':
+        return val === userForm.value.email || message
+
+      default:
+        return true
+    }
+  }
+
+  const isValidEmail = (val: string) => {
+    const emailPattern =
+      /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/
+    return emailPattern.test(val) || 'El correo no parece ser válido'
+  }
+
+  //styles media queries
+
+  const color = 'secondary'
 
   $q.screen.setSizes({
     sm: 426,
@@ -169,12 +180,15 @@
               rounded
               class="inputDocument"
               placeholder="Número de documento *"
-              type="text"
+              type="number"
               v-model="userForm.document"
               :color="color"
               :rules="[
                 (val) =>
-                  isFieldNotNull(val, 'Debes ingresar tu número de documento'),
+                  isFieldNotNull(
+                    val,
+                    'Ingrese número de documento sin puntos ni espacios '
+                  ),
               ]"
             >
               <template v-slot:prepend>
@@ -189,14 +203,19 @@
               rounded
               class="inputDocument"
               onpaste="return false"
-              placeholder="Confirme su número de documento *"
+              placeholder="Confirme documento *"
               type="text"
               v-model="userForm.documentConfirmation"
               :color="color"
               :rules="[
                 (val) =>
                   isFieldNotNull(val, 'Debes confirmar tu número de documento'),
-                (val) => isSameInput(val, 'document'),
+                (val) =>
+                  isSameInput(
+                    val,
+                    'Los números de documento no coinciden',
+                    'document'
+                  ),
               ]"
             >
               <template v-slot:prepend>
@@ -233,14 +252,14 @@
               class="inputEmail"
               color="secondary"
               onpaste="return false"
-              placeholder="Confirme su correo electrónico*"
+              placeholder="Confirme correo *"
               type="text"
               v-model="userForm.emailConfirmation"
               :rules="[
                 (val) =>
                   isFieldNotNull(val, 'Debes confirmar tu correo electrónico'),
                 (val) => isValidEmail(val),
-                (val) => isSameInput(val, 'email'),
+                (val) => isSameInput(val, 'Los correos no coinciden', 'email'),
               ]"
             >
               <template v-slot:prepend>
@@ -256,11 +275,13 @@
               class="inputPhone"
               color="secondary"
               placeholder="Número celular *"
-              type="text"
+              type="number"
               v-model="userForm.phoneNumber"
               :rules="[
                 (val) =>
                   isFieldNotNull(val, 'Debes ingresar tu número celular'),
+                (val) =>
+                  isCellNumber(val, 'El celular debe de ser de 10 dígitos'),
               ]"
             >
               <template v-slot:prepend>
@@ -275,7 +296,7 @@
               rounded
               class="inputEntity"
               color="secondary"
-              placeholder="Entidad desde la que viene*"
+              placeholder="Entidad/Empresa *"
               type="text"
               v-model="userForm.entity"
               :rules="[(val) => isFieldNotNull(val, undefined)]"
@@ -292,7 +313,7 @@
               rounded
               class="inputPosition"
               color="secondary"
-              placeholder="Cargo en la entidad *"
+              placeholder="Cargo/Ocupación *"
               type="text"
               v-model="userForm.position"
               :rules="[(val) => isFieldNotNull(val, undefined)]"
